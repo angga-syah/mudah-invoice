@@ -1,0 +1,503 @@
+<Window x:Class="InvoiceApp.Windows.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Settings - Invoice Management System" 
+        Height="700" Width="1000"
+        WindowStartupLocation="CenterScreen"
+        FontFamily="Segoe UI"
+        Background="#F5F5F5">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <Border Grid.Row="0" Style="{StaticResource HeaderStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="⚙️" FontSize="24" Foreground="White" Margin="0,0,10,0"/>
+                    <StackPanel>
+                        <TextBlock Text="Application Settings" 
+                                 FontSize="18" FontWeight="Bold" Foreground="White"/>
+                        <TextBlock Text="Configure application preferences and system settings" 
+                                 FontSize="12" Foreground="#B0BEC5"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <Button Grid.Column="1" Content="Close" 
+                      Background="#F44336" Foreground="White" 
+                      Padding="15,8" BorderThickness="0" 
+                      Cursor="Hand" Click="BtnClose_Click"/>
+            </Grid>
+        </Border>
+
+        <!-- Main Content -->
+        <TabControl Grid.Row="1" Margin="10" Style="{StaticResource TabControlStyle}">
+
+            <!-- Application Settings Tab -->
+            <TabItem Header="Application">
+                <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- General Settings -->
+                        <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Style="{StaticResource SectionTitleStyle}" Text="General Application Settings"/>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Auto-Save Interval (seconds)"/>
+                                        <TextBox x:Name="txtAutoSaveInterval" Style="{StaticResource TextBoxStyle}" 
+                                               Text="30" TextChanged="Settings_TextChanged"/>
+                                        <TextBlock Text="Range: 10-300 seconds" FontSize="10" Foreground="#666666"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Search Delay (milliseconds)"/>
+                                        <TextBox x:Name="txtSearchDelay" Style="{StaticResource TextBoxStyle}" 
+                                               Text="300" TextChanged="Settings_TextChanged"/>
+                                        <TextBlock Text="Range: 100-2000 ms" FontSize="10" Foreground="#666666"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Default Page Size"/>
+                                        <TextBox x:Name="txtDefaultPageSize" Style="{StaticResource TextBoxStyle}" 
+                                               Text="50" TextChanged="Settings_TextChanged"/>
+                                        <TextBlock Text="Range: 10-1000 records" FontSize="10" Foreground="#666666"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,20,0,0">
+                                    <Button x:Name="btnSaveAppSettings" Content="Save Application Settings" 
+                                          Style="{StaticResource SuccessButtonStyle}"
+                                          Click="BtnSaveAppSettings_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- System Information -->
+                        <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Style="{StaticResource SectionTitleStyle}" Text="System Information"/>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Database Version"/>
+                                        <TextBox x:Name="txtDatabaseVersion" Style="{StaticResource TextBoxStyle}" 
+                                               IsReadOnly="True" Background="#F5F5F5"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Last Backup"/>
+                                        <TextBox x:Name="txtLastBackup" Style="{StaticResource TextBoxStyle}" 
+                                               IsReadOnly="True" Background="#F5F5F5"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Maintenance Mode"/>
+                                        <CheckBox x:Name="chkMaintenanceMode" Content="Enable Maintenance Mode" 
+                                                Style="{StaticResource CheckBoxStyle}"
+                                                Checked="Settings_CheckChanged" Unchecked="Settings_CheckChanged"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Company Settings Tab -->
+            <TabItem Header="Company">
+                <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Company Information -->
+                        <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Style="{StaticResource SectionTitleStyle}" Text="Company Information"/>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Company Name *"/>
+                                        <TextBox x:Name="txtCompanyName" Style="{StaticResource TextBoxStyle}" 
+                                               TextChanged="Settings_TextChanged"/>
+
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Company Tagline"/>
+                                        <TextBox x:Name="txtCompanyTagline" Style="{StaticResource TextBoxStyle}" 
+                                               TextChanged="Settings_TextChanged"/>
+
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Company Address *"/>
+                                        <TextBox x:Name="txtCompanyAddress" Style="{StaticResource TextBoxStyle}" 
+                                               Height="60" TextWrapping="Wrap" AcceptsReturn="True"
+                                               TextChanged="Settings_TextChanged"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Phone Number 1"/>
+                                        <TextBox x:Name="txtCompanyPhone" Style="{StaticResource TextBoxStyle}" 
+                                               TextChanged="Settings_TextChanged"/>
+
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Phone Number 2"/>
+                                        <TextBox x:Name="txtCompanyPhone2" Style="{StaticResource TextBoxStyle}" 
+                                               TextChanged="Settings_TextChanged"/>
+
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Default VAT Percentage (%)"/>
+                                        <TextBox x:Name="txtDefaultVat" Style="{StaticResource TextBoxStyle}" 
+                                               TextChanged="Settings_TextChanged"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,20,0,0">
+                                    <Button x:Name="btnSaveCompanySettings" Content="Save Company Settings" 
+                                          Style="{StaticResource SuccessButtonStyle}"
+                                          Click="BtnSaveCompanySettings_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Invoice Settings -->
+                        <Border Grid.Row="1" Style="{StaticResource CardStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Style="{StaticResource SectionTitleStyle}" Text="Invoice Settings"/>
+
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Invoice Number Prefix *"/>
+                                        <TextBox x:Name="txtInvoicePrefix" Style="{StaticResource TextBoxStyle}" 
+                                               TextChanged="Settings_TextChanged"/>
+                                        <TextBlock Text="Default: FSN" FontSize="10" Foreground="#666666"/>
+                                    </StackPanel>
+
+                                    <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                        <TextBlock Style="{StaticResource LabelStyle}" Text="Invoice Place *"/>
+                                        <TextBox x:Name="txtInvoicePlace" Style="{StaticResource TextBoxStyle}" 
+                                               TextChanged="Settings_TextChanged"/>
+                                        <TextBlock Text="Default: Jakarta" FontSize="10" Foreground="#666666"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Print Settings Tab -->
+            <TabItem Header="Print">
+                <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Print Configuration -->
+                        <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Style="{StaticResource SectionTitleStyle}" Text="Print Configuration"/>
+
+                                <!-- Margins -->
+                                <GroupBox Grid.Row="1" Header="Print Margins (mm)" Style="{StaticResource GroupBoxStyle}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                                            <TextBlock Style="{StaticResource LabelStyle}" Text="Top Margin"/>
+                                            <TextBox x:Name="txtPrintMarginTop" Style="{StaticResource TextBoxStyle}" 
+                                                   TextChanged="Settings_TextChanged"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="1" Margin="10,0">
+                                            <TextBlock Style="{StaticResource LabelStyle}" Text="Bottom Margin"/>
+                                            <TextBox x:Name="txtPrintMarginBottom" Style="{StaticResource TextBoxStyle}" 
+                                                   TextChanged="Settings_TextChanged"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="2" Margin="10,0">
+                                            <TextBlock Style="{StaticResource LabelStyle}" Text="Left Margin"/>
+                                            <TextBox x:Name="txtPrintMarginLeft" Style="{StaticResource TextBoxStyle}" 
+                                                   TextChanged="Settings_TextChanged"/>
+                                        </StackPanel>
+
+                                        <StackPanel Grid.Column="3" Margin="10,0,0,0">
+                                            <TextBlock Style="{StaticResource LabelStyle}" Text="Right Margin"/>
+                                            <TextBox x:Name="txtPrintMarginRight" Style="{StaticResource TextBoxStyle}" 
+                                                   TextChanged="Settings_TextChanged"/>
+                                        </StackPanel>
+                                    </Grid>
+                                </GroupBox>
+
+                                <!-- Print Options -->
+                                <GroupBox Grid.Row="2" Header="Print Options" Style="{StaticResource GroupBoxStyle}">
+                                    <StackPanel>
+                                        <CheckBox x:Name="chkShowBankLastPage" Content="Show bank information only on last page" 
+                                                Style="{StaticResource CheckBoxStyle}"
+                                                Checked="Settings_CheckChanged" Unchecked="Settings_CheckChanged"/>
+                                        <TextBlock Text="When enabled, bank account details will only appear on the last page of multi-page invoices" 
+                                                 FontSize="10" Foreground="#666666" Margin="20,5,0,0"/>
+                                    </StackPanel>
+                                </GroupBox>
+
+                                <StackPanel Grid.Row="3" Orientation="Horizontal" Margin="0,20,0,0">
+                                    <Button x:Name="btnSavePrintSettings" Content="Save Print Settings" 
+                                          Style="{StaticResource SuccessButtonStyle}"
+                                          Click="BtnSavePrintSettings_Click"/>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Users Tab -->
+            <TabItem Header="Users">
+                <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- User Management -->
+                        <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Margin="0,0,0,10">
+                                    <TextBlock Style="{StaticResource SectionTitleStyle}" 
+                                             Text="User Management" HorizontalAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button x:Name="btnAddUser" Content="Add User" 
+                                              Style="{StaticResource SuccessButtonStyle}"
+                                              Click="BtnAddUser_Click"/>
+                                        <TextBlock x:Name="txtUserCount" Text="0 users" 
+                                                 VerticalAlignment="Center" Margin="10,0,0,0"
+                                                 Foreground="#666666"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <DataGrid x:Name="dgUsers" 
+                                        Grid.Row="1"
+                                        Style="{StaticResource DataGridStyle}"
+                                        AutoGenerateColumns="False"
+                                        MinHeight="300">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="150"/>
+                                        <DataGridTextColumn Header="Full Name" Binding="{Binding FullName}" Width="200"/>
+                                        <DataGridTextColumn Header="Role" Binding="{Binding RoleDisplay}" Width="120"/>
+                                        <DataGridTextColumn Header="Status" Binding="{Binding StatusDisplay}" Width="100">
+                                            <DataGridTextColumn.ElementStyle>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                            <Setter Property="Foreground" Value="Green"/>
+                                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding IsActive}" Value="False">
+                                                            <Setter Property="Foreground" Value="Red"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </DataGridTextColumn.ElementStyle>
+                                        </DataGridTextColumn>
+                                        <DataGridTextColumn Header="Last Login" Binding="{Binding LastLoginDisplay}" Width="150"/>
+                                        <DataGridTemplateColumn Header="Actions" Width="150">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button Content="Edit" FontSize="10" Padding="8,4" Margin="2"
+                                                              Background="{StaticResource AccentBrush}" Foreground="White"
+                                                              BorderThickness="0" CornerRadius="3"
+                                                              Click="BtnEditUser_Click" Tag="{Binding}"/>
+                                                        <Button Content="Delete" FontSize="10" Padding="8,4" Margin="2"
+                                                              Background="{StaticResource ErrorBrush}" Foreground="White"
+                                                              BorderThickness="0" CornerRadius="3"
+                                                              Click="BtnDeleteUser_Click" Tag="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+
+            <!-- Bank Accounts Tab -->
+            <TabItem Header="Bank Accounts">
+                <ScrollViewer Style="{StaticResource ScrollViewerStyle}">
+                    <Grid Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Bank Account Management -->
+                        <Border Grid.Row="0" Style="{StaticResource CardStyle}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid Grid.Row="0" Margin="0,0,0,10">
+                                    <TextBlock Style="{StaticResource SectionTitleStyle}" 
+                                             Text="Bank Account Management" HorizontalAlignment="Left"/>
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <Button x:Name="btnAddBank" Content="Add Bank Account" 
+                                              Style="{StaticResource SuccessButtonStyle}"
+                                              Click="BtnAddBank_Click"/>
+                                        <TextBlock x:Name="txtBankCount" Text="0 bank accounts" 
+                                                 VerticalAlignment="Center" Margin="10,0,0,0"
+                                                 Foreground="#666666"/>
+                                    </StackPanel>
+                                </Grid>
+
+                                <DataGrid x:Name="dgBankAccounts" 
+                                        Grid.Row="1"
+                                        Style="{StaticResource DataGridStyle}"
+                                        AutoGenerateColumns="False"
+                                        MinHeight="300">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Bank Name" Binding="{Binding BankName}" Width="200"/>
+                                        <DataGridTextColumn Header="Account Number" Binding="{Binding AccountNumber}" Width="150"/>
+                                        <DataGridTextColumn Header="Account Name" Binding="{Binding AccountName}" Width="200"/>
+                                        <DataGridCheckBoxColumn Header="Default" Binding="{Binding IsDefault}" Width="80" IsReadOnly="True"/>
+                                        <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="80" IsReadOnly="True"/>
+                                        <DataGridTemplateColumn Header="Actions" Width="200">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Button Content="Edit" FontSize="10" Padding="8,4" Margin="2"
+                                                              Background="{StaticResource AccentBrush}" Foreground="White"
+                                                              BorderThickness="0" CornerRadius="3"
+                                                              Click="BtnEditBank_Click" Tag="{Binding}"/>
+                                                        <Button Content="Set Default" FontSize="10" Padding="8,4" Margin="2"
+                                                              Background="{StaticResource SuccessBrush}" Foreground="White"
+                                                              BorderThickness="0" CornerRadius="3"
+                                                              Click="BtnSetDefaultBank_Click" Tag="{Binding}"/>
+                                                        <Button Content="Delete" FontSize="10" Padding="8,4" Margin="2"
+                                                              Background="{StaticResource ErrorBrush}" Foreground="White"
+                                                              BorderThickness="0" CornerRadius="3"
+                                                              Click="BtnDeleteBank_Click" Tag="{Binding}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+
+        <!-- Status Bar -->
+        <Border Grid.Row="2" Style="{StaticResource StatusBarStyle}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" x:Name="txtStatus" 
+                         Text="Settings ready for configuration" Foreground="{StaticResource TextBrush}" 
+                         VerticalAlignment="Center" FontSize="11"/>
+
+                <TextBlock Grid.Column="1" Text="Changes will be saved immediately" 
+                         Foreground="#666666" VerticalAlignment="Center" FontSize="11"/>
+            </Grid>
+        </Border>
+
+        <!-- Loading Overlay -->
+        <Border x:Name="pnlLoading" 
+              Grid.Row="0" Grid.RowSpan="3"
+              Style="{StaticResource LoadingPanelStyle}">
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                <ProgressBar Width="50" Height="50" IsIndeterminate="True"/>
+                <TextBlock Text="Saving settings..." Foreground="White" 
+                         FontSize="14" Margin="0,10,0,0" 
+                         HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>

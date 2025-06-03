@@ -1,0 +1,262 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Invoice Print Template Styles -->
+    <Style x:Key="InvoiceHeaderStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+    </Style>
+
+    <Style x:Key="InvoiceTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="16"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,5"/>
+    </Style>
+
+    <Style x:Key="InvoiceTaglineStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,20"/>
+    </Style>
+
+    <Style x:Key="InvoiceDetailStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Margin" Value="0,2"/>
+    </Style>
+
+    <Style x:Key="InvoiceDetailBoldStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="0,2"/>
+    </Style>
+
+    <Style x:Key="InvoiceTableHeaderStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="8"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="TextAlignment" Value="Center"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="Background" Value="LightGray"/>
+    </Style>
+
+    <Style x:Key="InvoiceTableCellStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="8"/>
+        <Setter Property="Padding" Value="4"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="InvoiceTableCellCenterStyle" TargetType="TextBlock" BasedOn="{StaticResource InvoiceTableCellStyle}">
+        <Setter Property="TextAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="InvoiceTableCellRightStyle" TargetType="TextBlock" BasedOn="{StaticResource InvoiceTableCellStyle}">
+        <Setter Property="TextAlignment" Value="Right"/>
+    </Style>
+
+    <Style x:Key="InvoiceTotalStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="TextAlignment" Value="Right"/>
+        <Setter Property="Margin" Value="0,2"/>
+    </Style>
+
+    <Style x:Key="InvoiceTerbilangStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="Margin" Value="0,10,0,20"/>
+    </Style>
+
+    <Style x:Key="InvoiceFooterStyle" TargetType="TextBlock">
+        <Setter Property="FontFamily" Value="Arial"/>
+        <Setter Property="FontSize" Value="8"/>
+        <Setter Property="Margin" Value="0,2"/>
+    </Style>
+
+    <Style x:Key="InvoiceFooterBoldStyle" TargetType="TextBlock" BasedOn="{StaticResource InvoiceFooterStyle}">
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <!-- Invoice Document Template -->
+    <FlowDocument x:Key="InvoiceDocumentTemplate">
+        <!-- This will be dynamically created in code-behind -->
+    </FlowDocument>
+
+    <!-- Print Page Setup -->
+    <PageContent x:Key="InvoicePageContent">
+        <!-- This will be dynamically created for printing -->
+    </PageContent>
+
+    <!-- Invoice Table Template -->
+    <DataTemplate x:Key="InvoiceLineItemTemplate">
+        <Border BorderBrush="Black" BorderThickness="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="140"/>
+                    <ColumnDefinition Width="300"/>
+                    <ColumnDefinition Width="110"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Column="0" 
+                          Text="{Binding RowNumber}"
+                          Style="{StaticResource InvoiceTableCellCenterStyle}"/>
+
+                <TextBlock Grid.Column="1" 
+                          Text="{Binding TkaNames}"
+                          Style="{StaticResource InvoiceTableCellStyle}"/>
+
+                <TextBlock Grid.Column="2" 
+                          Text="{Binding CombinedDescription}"
+                          Style="{StaticResource InvoiceTableCellStyle}"/>
+
+                <TextBlock Grid.Column="3" 
+                          Text="{Binding FormattedAmount}"
+                          Style="{StaticResource InvoiceTableCellRightStyle}"/>
+            </Grid>
+        </Border>
+    </DataTemplate>
+
+    <!-- Bank Information Template -->
+    <DataTemplate x:Key="BankInfoTemplate">
+        <StackPanel Margin="0,10,0,0">
+            <TextBlock Text="BANK INFORMATION:" 
+                      Style="{StaticResource InvoiceDetailBoldStyle}"/>
+            <TextBlock Text="{Binding BankInfo}" 
+                      Style="{StaticResource InvoiceDetailStyle}"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Company Header Template -->
+    <DataTemplate x:Key="CompanyHeaderTemplate">
+        <StackPanel>
+            <TextBlock Text="{Binding CompanyName}" 
+                      Style="{StaticResource InvoiceHeaderStyle}"/>
+            <TextBlock Text="INVOICE" 
+                      Style="{StaticResource InvoiceTitleStyle}"/>
+            <TextBlock Text="{Binding CompanyTagline}" 
+                      Style="{StaticResource InvoiceTaglineStyle}"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Invoice Details Template -->
+    <DataTemplate x:Key="InvoiceDetailsTemplate">
+        <Grid Margin="0,0,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Left Column -->
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="{Binding InvoiceNumber, StringFormat='No: {0}'}" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+                <TextBlock Text="{Binding InvoiceDateFormatted, StringFormat='Tanggal: {0}'}" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+                <TextBlock Text="Halaman: 1/1" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+            </StackPanel>
+
+            <!-- Right Column -->
+            <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                <TextBlock Text="Kantor:" 
+                          Style="{StaticResource InvoiceDetailBoldStyle}"/>
+                <TextBlock Text="{Binding CompanyAddress}" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+                <TextBlock Text="{Binding CompanyPhone, StringFormat='Telp: {0}'}" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+    <!-- Customer Info Template -->
+    <DataTemplate x:Key="CustomerInfoTemplate">
+        <StackPanel Margin="0,0,0,15">
+            <TextBlock Text="To:" 
+                      Style="{StaticResource InvoiceDetailBoldStyle}"/>
+            <TextBlock Text="{Binding CustomerName}" 
+                      Style="{StaticResource InvoiceDetailBoldStyle}"/>
+            <TextBlock Text="{Binding CustomerAddress}" 
+                      Style="{StaticResource InvoiceDetailStyle}"/>
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Financial Summary Template -->
+    <DataTemplate x:Key="FinancialSummaryTemplate">
+        <StackPanel HorizontalAlignment="Right" Width="300" Margin="0,10,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Grid.Column="0" Text="Sub Total:" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding FormattedSubtotal}" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding VatLabel}" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding FormattedVatAmount}" 
+                          Style="{StaticResource InvoiceDetailStyle}"/>
+
+                <TextBlock Grid.Row="2" Grid.Column="0" Text="Total:" 
+                          Style="{StaticResource InvoiceTotalStyle}"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding FormattedTotal}" 
+                          Style="{StaticResource InvoiceTotalStyle}"/>
+            </Grid>
+        </StackPanel>
+    </DataTemplate>
+
+    <!-- Terbilang Template -->
+    <DataTemplate x:Key="TerbilangTemplate">
+        <TextBlock Text="{Binding TerbilangText}" 
+                  Style="{StaticResource InvoiceTerbilangStyle}"/>
+    </DataTemplate>
+
+    <!-- Footer Template -->
+    <DataTemplate x:Key="FooterTemplate">
+        <Grid Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Terms/Notes -->
+            <StackPanel Grid.Column="0">
+                <TextBlock Text="{Binding Notes}" 
+                          Style="{StaticResource InvoiceFooterStyle}"/>
+            </StackPanel>
+
+            <!-- Company Name -->
+            <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                <TextBlock Text="{Binding CompanyName}" 
+                          Style="{StaticResource InvoiceFooterBoldStyle}"/>
+            </StackPanel>
+
+            <!-- Signature -->
+            <StackPanel Grid.Column="2" HorizontalAlignment="Right">
+                <TextBlock Text="_________________" 
+                          Style="{StaticResource InvoiceFooterStyle}"/>
+                <TextBlock Text="Authorized Signature" 
+                          Style="{StaticResource InvoiceFooterStyle}"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>
